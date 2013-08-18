@@ -1,0 +1,37 @@
+{
+  "version": "0.1.0",
+  "name": "Mia",
+  "description": "Generic sourc and documentation parser for JavaScript",
+  "keywords": [
+    "documentation",
+    "parsing",
+    "source",
+    "javascript"
+  ],
+  "homepage": "",
+  "author": "Ivo Wetzel <ivo.wetzel@googlemail.com> (https://github.com/BonsaiDen)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BonsaiDen/Mia"
+  },
+  "bugs": {
+    "url": "https://github.com/BonsaiDen/Mia/issues"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "main": "./lib/mia.js",
+  "devDependencies": {
+    "grunt-mocha-test": "~0.6.2"
+  },
+  "dependencies": {
+    "esprima": "~1.0.3",
+    "escodegen": "0.0.25"
+  },
+  "engines": {
+    "node": ">=0.8",
+    "npm": ">= 1"
+  },
+  "license": "MIT"
+
+}
