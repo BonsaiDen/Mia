@@ -1,9 +1,10 @@
 {
   "version": "0.1.0",
-  "name": "Mia",
+  "name": "mia",
   "description": "Generic sourc and documentation parser for JavaScript",
   "keywords": [
     "documentation",
+    "generator",
     "parsing",
     "source",
     "javascript"
