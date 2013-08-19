@@ -4,7 +4,7 @@ var assert = require('assert'),
 
 // Helpers --------------------------------------------------------------------
 function validateAnnotation(source, config, expected) {
-    var module = mia.parseModule('Test', source, config),
+    var module = mia.parse('Test', source, config),
         tag = module.internal.foo;
 
     assert.deepEqual(expected, tag.comment);
@@ -15,7 +15,7 @@ function validateExports(source, config, enames, eids) {
     var names = [],
         ids = [];
 
-    var module = mia.parseModule('Test', source, config);
+    var module = mia.parse('Test', source, config);
     for(var name in module.exports) {
         if (module.exports.hasOwnProperty(name)) {
             names.push(name);
@@ -30,7 +30,7 @@ function validateExports(source, config, enames, eids) {
 
 function validateSource(source, config, name, expected) {
 
-    var module = mia.parseModule('Test', source, config);
+    var module = mia.parse('Test', source, config);
     assert.ok(module.internal.hasOwnProperty(name), 'Name "' + name + '" not found');
 
     var compares = 0;
