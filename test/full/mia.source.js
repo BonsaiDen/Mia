@@ -28,6 +28,11 @@
 
     }
 
+    /** {Any}: Any value -> {Any}: Returns the passed in value */
+    External.classMethod = function(a) {
+        return a;
+    };
+
     External.prototype = Object.create(Internal.prototype);
 
     /** {Integer}: Value A; {Integer}: Value B -> {Integer}: The result */

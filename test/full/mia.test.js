@@ -13,7 +13,7 @@ describe('Full: Parse a Prototypical IIFE module with Mia annotations', function
         var source = fs.readFileSync('test/full/mia.source.js').toString(),
             expected = JSON.parse(fs.readFileSync('test/full/mia.expected.js').toString());
 
-        var module = mia.parseModule('Module', source, {
+        var module = mia.parse('Module', source, {
             modules: ['iife'],
             sources: ['prototypical'],
             annotations: ['mia']

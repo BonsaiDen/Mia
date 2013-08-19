@@ -16,7 +16,25 @@
             },
             "bases": [13],
             "params": ["name"],
-            "statics": [],
+            "statics": [{
+                "type": "Function",
+                "id": 60,
+                "name": "classMethod",
+                "comment": {
+                    "description": null,
+                    "params": [{
+                        "type": "Any",
+                        "description": "Any value",
+                        "defaultValue": null
+                    }],
+                    "returns": {
+                        "type": "Any",
+                        "description": "Returns the passed in value",
+                        "defaultValue": null
+                    }
+                },
+                "params": ["a"]
+            }],
             "members": [{
                 "type": "Property",
                 "id": 43,
@@ -32,7 +50,7 @@
                 }
             }, {
                 "type": "Method",
-                "id": 85,
+                "id": 95,
                 "name": "add",
                 "comment": {
                     "description": null,
