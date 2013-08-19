@@ -11,6 +11,15 @@ describe('Annotation: Mia', function() {
         annotations: ['mia']
     };
 
+    it('should return a empty, default annotation for missing doc blocks', function() {
+        var source = 'function foo() {}';
+        validateAnnotation(source, config, {
+            description: null,
+            params: [],
+            returns: null
+        });
+    });
+
     it('should parse a type', function() {
         var source = '/** {String} */\nfunction foo() {}';
         validateAnnotation(source, config, {
@@ -70,6 +79,27 @@ describe('Annotation: Mia', function() {
                 type: 'String',
                 description: null,
                 defaultValue: '"Hello World"'
+            }],
+            returns: null
+        });
+    });
+
+    it('should parse mutltiple types with complex default values', function() {
+        var source = '/** {String} ("Hello World"); {Integer} (1.0); {Vector} (Vector(2.0, 2.0))*/\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            description: null,
+            params: [{
+                type: 'String',
+                description: null,
+                defaultValue: '"Hello World"'
+            }, {
+                type: 'Integer',
+                description: null,
+                defaultValue: '1.0'
+            }, {
+                type: 'Vector',
+                description: null,
+                defaultValue: 'Vector(2.0, 2.0)'
             }],
             returns: null
         });
