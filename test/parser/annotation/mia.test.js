@@ -7,8 +7,8 @@ var test = require('../../test'),
 describe('Annotation: Mia', function() {
 
     var config = {
-        sources: ['prototypical'],
-        annotations: ['mia']
+        source: 'prototypical',
+        annotation: 'mia'
     };
 
     it('should return a empty, default annotation for missing doc blocks', function() {

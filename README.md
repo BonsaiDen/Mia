@@ -34,9 +34,9 @@ var module = mia.parse(
     'Module', // Name of the module
     source, 
     {
-        modules: ['iife'], // Detect standard anonymous function wrappers
-        sources: ['prototypical'], // Detect standrad prototypical classes
-        annotations: ['mia'] // Use mia annotations
+        module: ['iife'], // Detect standard anonymous function wrappers
+        source: ['prototypical'], // Detect standrad prototypical classes
+        annotation: ['mia'] // Use mia annotations
     }
 );
 ```

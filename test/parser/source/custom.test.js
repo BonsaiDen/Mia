@@ -15,7 +15,7 @@ describe('Source: Custom Function', function() {
     }
 
     var config = {
-        sources: [custom]
+        source: custom
     };
 
     it('should execute custom parser functions and run over all call and assignment expressions, even in sequence expressions', function() {

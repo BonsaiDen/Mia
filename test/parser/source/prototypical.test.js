@@ -7,7 +7,7 @@ var test = require('../../test'),
 describe('Source: Prototypical', function() {
 
     var config = {
-        sources: ['prototypical']
+        source: 'prototypical'
     };
 
     it('should detect function declarations', function() {

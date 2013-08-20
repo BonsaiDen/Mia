@@ -14,9 +14,9 @@ describe('Full: Parse a Prototypical IIFE module with Mia annotations', function
             expected = JSON.parse(fs.readFileSync('test/full/mia.expected.js').toString());
 
         var module = mia.parse('Module', source, {
-            modules: ['iife'],
-            sources: ['prototypical'],
-            annotations: ['mia']
+            module: 'iife',
+            source: 'prototypical',
+            annotation: 'mia'
         });
 
         assert.deepEqual(expected, module);

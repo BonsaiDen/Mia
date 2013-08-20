@@ -7,7 +7,7 @@ var test = require('../../test'),
 describe('Module: Immediately invoked function expression (iife)', function() {
 
     var config = {
-        modules: ['iife']
+        module: 'iife'
     };
 
     it('should detect exports on the first object being passed in', function() {
