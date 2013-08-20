@@ -34,6 +34,20 @@
                     }
                 },
                 "params": ["a"]
+            }, {
+                "type": "Factory",
+                "id": 111,
+                "name": "CreateExternal",
+                "comment": {
+                    "description": "A Static Factory",
+                    "params": [],
+                    "returns": {
+                        "type": "External",
+                        "description": null,
+                        "defaultValue": null
+                    }
+                },
+                "params": []
             }],
             "members": [{
                 "type": "Property",
@@ -71,6 +85,36 @@
                 },
                 "params": ["a", "b"],
                 "supers": [13]
+            }, {
+                "type": "Method",
+                "id": 123,
+                "name": "methodAlias",
+                "comment": {
+                    "description": "Aliased method with multiple names",
+                    "params": [],
+                    "returns": {
+                        "type": "Null",
+                        "description": null,
+                        "defaultValue": null
+                    }
+                },
+                "params": [],
+                "supers": []
+            }, {
+                "type": "Method",
+                "id": 123,
+                "name": "method",
+                "comment": {
+                    "description": "Aliased method with multiple names",
+                    "params": [],
+                    "returns": {
+                        "type": "Null",
+                        "description": null,
+                        "defaultValue": null
+                    }
+                },
+                "params": [],
+                "supers": []
             }]
         }
     },

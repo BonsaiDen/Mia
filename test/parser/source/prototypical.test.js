@@ -49,14 +49,14 @@ describe('Source: Prototypical', function() {
         });
 
         // Via member assignment
-        source = 'function foo(a, b) { this.a = a; this.b = b; }';
-        validateSource(source, config, 'foo', {
+        source = 'function Foo(a, b) { this.a = a; this.b = b; }';
+        validateSource(source, config, 'Foo', {
             type: 'Class'
         });
 
         // Via super call
-        source = 'function foo(a, b) { Bar.call(this); }';
-        validateSource(source, config, 'foo', {
+        source = 'function Foo(a, b) { Bar.call(this); }';
+        validateSource(source, config, 'Foo', {
             type: 'Class'
         });
 

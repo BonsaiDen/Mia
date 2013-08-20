@@ -40,6 +40,19 @@
         return Internal.prototype.add.call(this, a, b);
     };
 
+    // Prototype Aliasing
+    var proto = External.prototype;
+
+    /** A Static Factory -> {External} */
+    External.CreateExternal = function() {
+        return new External();
+    };
+
+    /** Aliased method with multiple names -> {Null} */
+    proto.method = proto.methodAlias = function() {
+        return null;
+    };
+
     // Public interface
     exports.External = External;
 
