@@ -30,14 +30,26 @@ describe('Source: Prototypical', function() {
         });
     });
 
-    it('should detect factory functions (starting with upper case and returning)', function() {
-        var source = 'function FooFactory(a, b) { return new Foo(a, b); }';
-        validateSource(source, config, 'FooFactory', {
+    it('should detect factory functions (return a new value)', function() {
+
+        // Direct return
+        var source = 'function fooFactory(a, b) { return new Foo(a, b); }';
+        validateSource(source, config, 'fooFactory', {
             type: 'Factory',
-            name: 'FooFactory',
+            name: 'fooFactory',
             comment: null,
             params: ['a', 'b']
         });
+
+        // Indirect return
+        source = 'function fooFactory(a, b) { var inst = new Foo(a, b); return inst; }';
+        validateSource(source, config, 'fooFactory', {
+            type: 'Factory',
+            name: 'fooFactory',
+            comment: null,
+            params: ['a', 'b']
+        });
+
     });
 
     it('should detect constructors', function() {
@@ -49,14 +61,14 @@ describe('Source: Prototypical', function() {
         });
 
         // Via member assignment
-        source = 'function Foo(a, b) { this.a = a; this.b = b; }';
-        validateSource(source, config, 'Foo', {
+        source = 'function foo(a, b) { this.a = a; this.b = b; }';
+        validateSource(source, config, 'foo', {
             type: 'Class'
         });
 
         // Via super call
-        source = 'function Foo(a, b) { Bar.call(this); }';
-        validateSource(source, config, 'Foo', {
+        source = 'function foo(a, b) { Bar.call(this); }';
+        validateSource(source, config, 'foo', {
             type: 'Class'
         });
 
