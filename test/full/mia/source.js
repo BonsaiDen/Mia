@@ -18,6 +18,11 @@
         return a + b;
     };
 
+    /** @private A private method -> {Integer} */
+    Internal.prototype.hidden = function() {
+        return 4;
+    };
+
     /** The External Class; {String} The name of the external */
     function External(name) {
 

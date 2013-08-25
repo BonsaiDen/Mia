@@ -72,6 +72,8 @@ function validateSource(source, config, name, expected) {
     compare(module.internal[name], expected);
     assert.ok(compares > 0, 'No comparisons');
 
+    return module;
+
 }
 
 

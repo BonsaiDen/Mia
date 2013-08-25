@@ -1,3 +1,4 @@
+// Dependencies ---------------------------------------------------------------
 var test = require('../../test'),
     validateSource = test.validateSource;
 
@@ -10,7 +11,7 @@ describe('Source: Custom Function', function() {
     function custom(name, node) {
         nodeCounter++;
         if (node.type === 'FunctionDeclaration' && name === 'foo') {
-            return new test.mia.tags.FunctionTag(node.$uid, name, null, []);
+            return new test.mia.Tag.Function(node.$uid, name, null, []);
         }
     }
 

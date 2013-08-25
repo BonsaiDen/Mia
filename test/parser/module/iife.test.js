@@ -1,3 +1,4 @@
+// Dependencies ---------------------------------------------------------------
 var test = require('../../test'),
     validateExports = test.validateExports;
 

@@ -10,7 +10,7 @@ describe('Core: Comments', function() {
     var source = '/** Doc Block\n * Multiline\n * Comment\n */\nfunction Foo() {}\n/** Description */Foo.bar = 2;\n// Inline Comment\nfunction Bar(){}';
     var ast = mia.ast.parse(source).body;
 
-    it('should correctly attach comments to their nodes', function() {
+    it('should correctly attach comments to their respective nodes', function() {
         assert.ok(ast[0].hasOwnProperty('$comment'));
         assert.ok(ast[1].hasOwnProperty('$comment'));
         assert.ok(!ast[2].hasOwnProperty('$comment'));

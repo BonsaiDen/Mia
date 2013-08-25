@@ -1,3 +1,4 @@
+// Dependencies ---------------------------------------------------------------
 var test = require('../../test'),
     validateAnnotation = test.validateAnnotation;
 
@@ -11,62 +12,55 @@ describe('Annotation: Mia', function() {
         annotation: 'mia'
     };
 
-    it('should return a empty, default annotation for missing doc blocks', function() {
+    it('should ignore missing doc blocks', function() {
         var source = 'function foo() {}';
-        validateAnnotation(source, config, {
-            description: null,
-            params: [],
-            returns: null
-        });
+        validateAnnotation(source, config, null);
     });
 
     it('should parse a type', function() {
         var source = '/** {String} */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
-                type: 'String',
-                description: null,
-                defaultValue: null
-            }],
-            returns: null
+                type: 'String'
+            }]
         });
     });
 
-    it('should parse a type with description', function() {
+    it('should parse a type with description and end all descriptions with a dot', function() {
         var source = '/** {String}: A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
                 type: 'String',
-                description: 'A String',
-                defaultValue: null
-            }],
-            returns: null
+                description: 'A String.'
+            }]
         });
+
+        source = '/** {String}: A String. */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: 'String',
+                description: 'A String.'
+            }]
+        });
+
     });
 
     it('should handle the colon after the type as optional', function() {
         var source = '/** {String} A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
                 type: 'String',
-                description: 'A String',
-                defaultValue: null
-            }],
-            returns: null
+                description: 'A String.'
+            }]
         });
 
         source = '/** {String} ("Foo") A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
                 type: 'String',
-                description: 'A String',
+                description: 'A String.',
                 defaultValue: '"Foo"'
-            }],
-            returns: null
+            }]
         });
 
     });
@@ -74,58 +68,46 @@ describe('Annotation: Mia', function() {
     it('should parse a type with default value', function() {
         var source = '/** {String} ("Hello World") */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
                 type: 'String',
-                description: null,
                 defaultValue: '"Hello World"'
-            }],
-            returns: null
+            }]
         });
     });
 
     it('should parse mutltiple types with complex default values', function() {
         var source = '/** {String} ("Hello World"); {Integer} (1.0); {Vector} (Vector(2.0, 2.0))*/\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
                 type: 'String',
-                description: null,
                 defaultValue: '"Hello World"'
             }, {
                 type: 'Integer',
-                description: null,
                 defaultValue: '1.0'
             }, {
                 type: 'Vector',
-                description: null,
                 defaultValue: 'Vector(2.0, 2.0)'
-            }],
-            returns: null
+            }]
         });
     });
 
     it('should parse a type with default value and description', function() {
         var source = '/** {String} ("Hello World"): A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
                 type: 'String',
-                description: 'A String',
+                description: 'A String.',
                 defaultValue: '"Hello World"'
-            }],
-            returns: null
+            }]
         });
     });
 
     it('should parse return types', function() {
         var source = '/** -> {String} ("Hello World"): A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
-            params: [],
             returns: {
                 type: 'String',
-                description: 'A String',
+                description: 'A String.',
                 defaultValue: '"Hello World"'
             }
         });
@@ -135,24 +117,19 @@ describe('Annotation: Mia', function() {
     it('should parse multiple types', function() {
         var source = '/** {String}; {Integer}: Count; {Float} (2.3): Value -> {Object} Returns an object*/\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
             params: [{
-                type: 'String',
-                description: null,
-                defaultValue: null
+                type: 'String'
             }, {
                 type: 'Integer',
-                description: 'Count',
-                defaultValue: null
+                description: 'Count.',
             }, {
                 type: 'Float',
-                description: 'Value',
+                description: 'Value.',
                 defaultValue: '2.3'
             }],
             returns: {
                 type: 'Object',
-                description: 'Returns an object',
-                defaultValue: null
+                description: 'Returns an object.'
             }
         });
 
@@ -161,21 +138,15 @@ describe('Annotation: Mia', function() {
     it('should parse general descriptions', function() {
         var source = '/** Is a function */\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: 'Is a function',
-            params: [],
-            returns: null
+            description: 'Is a function.'
         });
     });
 
     it('should parse sole return descriptions', function() {
         var source = '/** -> Returns a value*/\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: null,
-            params: [],
             returns: {
-                type: null,
-                description: 'Returns a value',
-                defaultValue: null
+                description: 'Returns a value.'
             }
         });
     });
@@ -183,20 +154,18 @@ describe('Annotation: Mia', function() {
     it('should parse everything together', function() {
         var source = '/** A generic function; {Integer} (1.0): Value  ; {Integer}: Other -> {Float} Returns a value*/\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: 'A generic function',
+            description: 'A generic function.',
             params: [{
                 type: 'Integer',
-                description: 'Value',
+                description: 'Value.',
                 defaultValue: '1.0'
             }, {
                 type: 'Integer',
-                description: 'Other',
-                defaultValue: null
+                description: 'Other.'
             }],
             returns: {
                 type: 'Float',
-                description: 'Returns a value',
-                defaultValue: null
+                description: 'Returns a value.'
             }
         });
     });
@@ -204,22 +173,51 @@ describe('Annotation: Mia', function() {
     it('should handle multiline comments', function() {
         var source = '/** A generic \nfunction; {Integer} \n(1.0): Value  \n; {Integer}: Other -> {Float} Returns a \nvalue*/\nfunction foo() {}';
         validateAnnotation(source, config, {
-            description: 'A generic function',
+            description: 'A generic function.',
             params: [{
                 type: 'Integer',
-                description: 'Value',
+                description: 'Value.',
                 defaultValue: '1.0'
             }, {
                 type: 'Integer',
-                description: 'Other',
-                defaultValue: null
+                description: 'Other.'
             }],
             returns: {
                 type: 'Float',
-                description: 'Returns a value',
-                defaultValue: null
+                description: 'Returns a value.'
             }
         });
+    });
+
+    it('should parse visibility hints', function() {
+
+        var source = '/** @private A private method -> {Integer} */function foo() {}';
+        validateAnnotation(source, config, {
+            description: 'A private method.',
+            returns: {
+                type: 'Integer'
+            },
+            visibility: 'private'
+        });
+
+        source = '/** @protected A protected method -> {Integer} */function foo() {}';
+        validateAnnotation(source, config, {
+            description: 'A protected method.',
+            returns: {
+                type: 'Integer'
+            },
+            visibility: 'protected'
+        });
+
+        source = '/** @public A public method -> {Integer} */function foo() {}';
+        validateAnnotation(source, config, {
+            description: 'A public method.',
+            returns: {
+                type: 'Integer'
+            },
+            visibility: 'public'
+        });
+
     });
 
 });
