@@ -1,5 +1,5 @@
 // Dependencies ---------------------------------------------------------------
-var test = require('../../test'),
+var test = require('../test'),
     fs = require('fs'),
     mia = test.mia,
     assert = test.assert;

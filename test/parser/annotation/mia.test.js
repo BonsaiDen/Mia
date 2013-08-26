@@ -18,12 +18,23 @@ describe('Annotation: Mia', function() {
     });
 
     it('should parse a type', function() {
+
+        // Test simple type
         var source = '/** {String} */\nfunction foo() {}';
         validateAnnotation(source, config, {
             params: [{
                 type: 'String'
             }]
         });
+
+        // Test identifiers in types
+        source = '/** {a0901[].barFoo_1234$} */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: 'a0901[].barFoo_1234$'
+            }]
+        });
+
     });
 
     it('should parse a type with description and end all descriptions with a dot', function() {
@@ -91,6 +102,7 @@ describe('Annotation: Mia', function() {
         });
     });
 
+
     it('should parse a type with default value and description', function() {
         var source = '/** {String} ("Hello World"): A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
@@ -149,6 +161,25 @@ describe('Annotation: Mia', function() {
                 description: 'Returns a value.'
             }
         });
+    });
+
+    it('should parse property annotations with type, defaultValue and description', function() {
+
+        var source = '/** A function */ function Foo() { /** {Integer} (0.0): A Property */ this.foo = 1; }',
+            module = test.mia.parse('Test', source, config),
+            tag = module.internal.Foo;
+
+        test.assert.deepEqual({
+            description: 'A function.'
+
+        }, tag.comment);
+
+        test.assert.deepEqual({
+            type: 'Integer',
+            description: 'A Property.'
+
+        }, tag.members[0].comment);
+
     });
 
     it('should parse everything together', function() {

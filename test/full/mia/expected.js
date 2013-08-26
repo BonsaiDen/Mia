@@ -46,10 +46,8 @@
                 "id": 54,
                 "name": "name",
                 "comment": {
-                    "params": [{
-                        "type": "String",
-                        "description": "Name."
-                    }]
+                    "type": "String",
+                    "description": "Name."
                 }
             }, {
                 "type": "Method",
@@ -116,10 +114,8 @@
                 "id": 19,
                 "name": "uid",
                 "comment": {
-                    "params": [{
-                        "type": "Integer",
-                        "description": "Unique ID counter for instance ids."
-                    }]
+                    "type": "Integer",
+                    "description": "Unique ID counter for instance ids."
                 }
             }],
             "members": [{
@@ -127,10 +123,8 @@
                 "id": 10,
                 "name": "id",
                 "comment": {
-                    "params": [{
-                        "type": "Integer",
-                        "description": "The unique ID of the class instance."
-                    }]
+                    "type": "Integer",
+                    "description": "The unique ID of the class instance."
                 }
             }, {
                 "type": "Method",
