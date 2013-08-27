@@ -220,6 +220,24 @@ describe('Annotation: Mia', function() {
         });
     });
 
+    it('should handle {Type} tokens as separators', function() {
+        var source = '/** The Description\n\n {String} First parameter {Float} Second parameter -> {Integer}*/function foo() {}';
+        validateAnnotation(source, config, {
+            description: 'The Description.',
+            params: [{
+                type: 'String',
+                description: 'First parameter.'
+            }, {
+                type: 'Float',
+                description: 'Second parameter.'
+            }],
+            returns: {
+                type: 'Integer'
+            }
+        });
+
+    });
+
     it('should parse visibility hints', function() {
 
         var source = '/** @private A private method -> {Integer} */function foo() {}';
