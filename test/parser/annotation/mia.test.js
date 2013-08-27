@@ -269,5 +269,16 @@ describe('Annotation: Mia', function() {
 
     });
 
+    it('should correctly deal with multiple newline characters including leading ones', function() {
+        var source = '/** \n@private \nA \n\n\nprivate \n\nmethod -> \n{Integer} */function foo() {}';
+        validateAnnotation(source, config, {
+            description: 'A private method.',
+            returns: {
+                type: 'Integer'
+            },
+            visibility: 'private'
+        });
+    });
+
 });
 
