@@ -280,5 +280,16 @@ describe('Annotation: Mia', function() {
         });
     });
 
+    it('should correctly deal with indented comments', function() {
+        var source = '/** \n     @private \nA \n\n\n       private \n\n      method -> \n          {Integer} */function foo() {}';
+        validateAnnotation(source, config, {
+            description: 'A private method.',
+            returns: {
+                type: 'Integer'
+            },
+            visibility: 'private'
+        });
+    });
+
 });
 
