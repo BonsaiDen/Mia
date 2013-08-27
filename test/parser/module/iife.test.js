@@ -31,5 +31,10 @@ describe('Module: Immediately invoked function expression (iife)', function() {
         );
     });
 
+    it('should not crash on invalid exports', function() {
+        var source = '(function(exports) { exports.A = A; })(this);';
+        validateExports(source, config, [], []);
+    });
+
 });
 
