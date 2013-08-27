@@ -42,17 +42,9 @@ var module = mia.parse(
 ```
 
 `module` will be a serializable JSON structure which contains all information 
-returned by the different parsers. An example can be found in [this gist](https://gist.github.com/BonsaiDen/6262270).
+returned by the different parsers. 
 
-While the structure already contains all the required information to build 
-documentation from it, the data is still not combined in a template friendly way.
-
-By calling `mia.generate()` with the module and the matching *generator* a nicer 
-structure can be generated which is easy to work with using standard template engines.
-
-```javascript
-var template = mia.generate(module, 'mia');
-```
+An example can be found in [this gist](https://gist.github.com/BonsaiDen/6262270).
 
 
 ### Parsers
@@ -91,14 +83,16 @@ It is easy to extend as you can just pass your custom functions to Mia instead
 of a parser name.
 
 
-### Generators
+#### Templating
 
-The following generators are currently included:
+`mia.generate` can be used to generate template friendly that's already pre filtered and categorized.
 
-- `mia`
-
-    - Works perfectly with results from the built-in parsers, but should also work fine with most custom parsers.
-
+```javascript
+var template = mia.generate(module, {
+    untyped: false, 
+    visibility: null
+});
+```
 
 ## License
 
