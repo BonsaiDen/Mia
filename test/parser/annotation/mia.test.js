@@ -17,7 +17,7 @@ describe('Annotation: Mia', function() {
         validateAnnotation(source, config, null);
     });
 
-    it('should parse a type', function() {
+    it('should parse simple type', function() {
 
         // Test simple type
         var source = '/** {String} */\nfunction foo() {}';
@@ -28,14 +28,67 @@ describe('Annotation: Mia', function() {
         });
 
         // Test identifiers in types
-        source = '/** {a0901[].barFoo_1234$} */\nfunction foo() {}';
+        source = '/** {a0901barFoo_1234$} */\nfunction foo() {}';
         validateAnnotation(source, config, {
             params: [{
-                type: 'a0901[].barFoo_1234$'
+                type: 'a0901barFoo_1234$'
             }]
         });
 
     });
+
+    it('should parse multiple types', function() {
+        var source = '/** {String|Integer|Null} */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: ['String', 'Integer', 'Null']
+            }]
+        });
+    });
+
+    it('should parse array types', function() {
+        var source = '/** {String[]} */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: {
+                    name: 'String',
+                    array: true
+                }
+            }]
+        });
+    });
+
+    it('should parse optional parameters', function() {
+
+        var source = '/** {String?} */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: 'String',
+                optional: true
+            }]
+        });
+
+        source = '/** {String|Integer?} */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: ['String', 'Integer'],
+                optional: true
+            }]
+        });
+
+    });
+
+    it('should parse parameters with a default value as optional', function() {
+        var source = '/** {String} ("Hello World") */\nfunction foo() {}';
+        validateAnnotation(source, config, {
+            params: [{
+                type: 'String',
+                defaultValue: '"Hello World"',
+                optional: true
+            }]
+        });
+    });
+
 
     it('should parse a type with description and end all descriptions with a dot', function() {
         var source = '/** {String}: A String */\nfunction foo() {}';
@@ -53,10 +106,9 @@ describe('Annotation: Mia', function() {
                 description: 'A String.'
             }]
         });
-
     });
 
-    it('should handle the colon after the type as optional', function() {
+    it('should handle the colon after the parameter/type as optional', function() {
         var source = '/** {String} A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
             params: [{
@@ -70,34 +122,28 @@ describe('Annotation: Mia', function() {
             params: [{
                 type: 'String',
                 description: 'A String.',
-                defaultValue: '"Foo"'
+                defaultValue: '"Foo"',
+                optional: true
             }]
         });
 
     });
 
-    it('should parse a type with default value', function() {
-        var source = '/** {String} ("Hello World") */\nfunction foo() {}';
-        validateAnnotation(source, config, {
-            params: [{
-                type: 'String',
-                defaultValue: '"Hello World"'
-            }]
-        });
-    });
-
-    it('should parse mutltiple types with complex default values', function() {
+    it('should parse multiple types with complex default values', function() {
         var source = '/** {String} ("Hello World"); {Integer} (1.0); {Vector} (Vector(2.0, 2.0))*/\nfunction foo() {}';
         validateAnnotation(source, config, {
             params: [{
                 type: 'String',
-                defaultValue: '"Hello World"'
+                defaultValue: '"Hello World"',
+                optional: true
             }, {
                 type: 'Integer',
-                defaultValue: '1.0'
+                defaultValue: '1.0',
+                optional: true
             }, {
                 type: 'Vector',
-                defaultValue: 'Vector(2.0, 2.0)'
+                defaultValue: 'Vector(2.0, 2.0)',
+                optional: true
             }]
         });
     });
@@ -109,24 +155,23 @@ describe('Annotation: Mia', function() {
             params: [{
                 type: 'String',
                 description: 'A String.',
-                defaultValue: '"Hello World"'
+                defaultValue: '"Hello World"',
+                optional: true
             }]
         });
     });
 
-    it('should parse return types', function() {
+    it('should parse return types and ignore default values', function() {
         var source = '/** -> {String} ("Hello World"): A String */\nfunction foo() {}';
         validateAnnotation(source, config, {
             returns: {
                 type: 'String',
-                description: 'A String.',
-                defaultValue: '"Hello World"'
+                description: 'A String.'
             }
         });
-
     });
 
-    it('should parse multiple types', function() {
+    it('should parse multiple paramters', function() {
         var source = '/** {String}; {Integer}: Count; {Float} (2.3): Value -> {Object} Returns an object*/\nfunction foo() {}';
         validateAnnotation(source, config, {
             params: [{
@@ -137,7 +182,8 @@ describe('Annotation: Mia', function() {
             }, {
                 type: 'Float',
                 description: 'Value.',
-                defaultValue: '2.3'
+                defaultValue: '2.3',
+                optional: true
             }],
             returns: {
                 type: 'Object',
@@ -147,14 +193,14 @@ describe('Annotation: Mia', function() {
 
     });
 
-    it('should parse general descriptions', function() {
+    it('should parse general descriptions without types', function() {
         var source = '/** Is a function */\nfunction foo() {}';
         validateAnnotation(source, config, {
             description: 'Is a function.'
         });
     });
 
-    it('should parse sole return descriptions', function() {
+    it('should parse return descriptions without types', function() {
         var source = '/** -> Returns a value*/\nfunction foo() {}';
         validateAnnotation(source, config, {
             returns: {
@@ -189,6 +235,7 @@ describe('Annotation: Mia', function() {
             params: [{
                 type: 'Integer',
                 description: 'Value.',
+                optional: true,
                 defaultValue: '1.0'
             }, {
                 type: 'Integer',
@@ -208,7 +255,8 @@ describe('Annotation: Mia', function() {
             params: [{
                 type: 'Integer',
                 description: 'Value.',
-                defaultValue: '1.0'
+                defaultValue: '1.0',
+                optional: true
             }, {
                 type: 'Integer',
                 description: 'Other.'
